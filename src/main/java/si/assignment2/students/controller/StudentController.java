@@ -38,11 +38,11 @@ public class StudentController {
         if (student.isEmpty()) {
             throw new StudentNotFoundException("id: " + id);
         }
-        EntityModel<Student> resource = EntityModel.of(student.get()); 						// get the resource
-        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).getAllStudents());      // get link
-        resource.add(linkTo.withRel("all-students"));										// append the link
+        EntityModel<Student> resource = EntityModel.of(student.get());
+        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).getAllStudents());
+        resource.add(linkTo.withRel("all-students"));
 
-        Link selfLink = linkTo(methodOn(this.getClass()).retrieveStudent(id)).withSelfRel(); //add also link to self
+        Link selfLink = linkTo(methodOn(this.getClass()).retrieveStudent(id)).withSelfRel();
         resource.add(selfLink);
         return resource;
     }
