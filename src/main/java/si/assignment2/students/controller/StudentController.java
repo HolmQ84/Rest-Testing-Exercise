@@ -1,11 +1,14 @@
 package si.assignment2.students.controller;
 
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import si.assignment2.students.exception.StudentNotFoundException;
@@ -32,11 +35,10 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Student> retrieveStudent(@PathVariable long id)
-    {
+    public EntityModel<Student> retrieveStudent(@PathVariable long id) {
         Optional<Student> student = repository.findById(id);
         if (student.isEmpty()) {
-            throw new StudentNotFoundException("id: " + id);
+            throw new StudentNotFoundException(HttpStatus.NOT_FOUND, "Student with ID: " + id + " was not found.");
         }
         EntityModel<Student> resource = EntityModel.of(student.get());
         WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).getAllStudents());

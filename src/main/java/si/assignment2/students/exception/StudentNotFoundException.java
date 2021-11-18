@@ -1,8 +1,11 @@
 package si.assignment2.students.exception;
 
-public class StudentNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-    public StudentNotFoundException(String exception) {
-        super("The student with the following ID couldn't be found: "+exception);
+public class StudentNotFoundException extends ResponseStatusException {
+
+    public StudentNotFoundException(HttpStatus notFound, String exception) {
+        super(notFound, exception);
     }
 }
